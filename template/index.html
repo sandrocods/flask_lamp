@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
+
+    <title>Sticky Footer Template for Bootstrap</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/sticky-footer/">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+            integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+
+</head>
+
+<body>
+
+<center>
+    <script>
+
+            function changeImage() {
+
+              var image = document.getElementById('myImage');
+              if (image.src.match("off")) {
+
+                image.src = "{{ url_for('static', filename='led_on.png') }}";
+
+                  $.ajax({
+                        url:"{{ url_for('Action', state='ON') }}",
+                        type:'get',
+                        success: function(data){
+                            console.log(data);
+                           document.getElementById('message').innerHTML = data;
+                        }
+                  });
+
+              } else {
+
+                image.src = "{{ url_for('static', filename='led_off.png') }}";
+
+                  $.ajax({
+                        url:"{{ url_for('Action', state='off') }}",
+                        type:'get',
+                        success: function(data){
+                        console.log(data);
+                           document.getElementById('message').innerHTML = data;
+                        }
+                  });
+              }
+
+            }
+
+
+
+    </script>
+
+    <h1 class="mt-5">Control LED using Raspberry PI</h1>
+
+    {% if status == "Active" %}
+
+    <div id="picture">
+        <img id="myImage" src="{{ url_for('static', filename='led_on.png') }}" onclick="changeImage()">
+    </div>
+    {% else %}
+    <div id="picture">
+        <img id="myImage" src="{{ url_for('static', filename='led_off.png') }}" onclick="changeImage()">
+    </div>
+    {% endif %}
+
+
+    <h1 id="message">
+
+    </h1>
+
+</center>
+
+</body>
+</html>
